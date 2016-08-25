@@ -4,11 +4,14 @@ import React from 'react';
 export default class HexagonBtn extends React.Component{
     componentDidMount(){
         const canvas = this.refs.hexagon;
-        let outerSize = canvas.width/4
-        this.drawHexagon({centerX: outerSize, centerY: outerSize}, outerSize);
+        let sizeX = canvas.width/2,
+            sizeY = canvas.height/2;
+        let centerX = canvas.width/2,
+            centerY = canvas.height/2;
+        this.drawHexagon({centerX, centerY}, {sizeX, sizeY});
     }
 
-    drawHexagon({centerX = 20, centerY = 20}, size = 25, isOuter = true){
+    drawHexagon({centerX = 20, centerY = 20} = {}, {sizeX = 25, sizeY = 25} = {}, isOuter = true){
         const ctx = this.refs.hexagon.getContext('2d');
 
         if(!isOuter){
@@ -19,16 +22,16 @@ export default class HexagonBtn extends React.Component{
         }
         
         ctx.beginPath();
-        ctx.moveTo(centerX+size*Math.cos(0), centerY+size*Math.sin(0));
+        ctx.moveTo(centerX+sizeX*Math.cos(0), centerY+sizeY*Math.sin(0));
         for( let i=1; i<=6; i++ ){
-            ctx.lineTo(centerX + size * Math.cos(i*2*Math.PI/6), 
-                    centerY + size * Math.sin(i*2*Math.PI/6));
+            ctx.lineTo(centerX + sizeX * Math.cos(i*2*Math.PI/6), 
+                    centerY + sizeY * Math.sin(i*2*Math.PI/6));
         }
         
         ctx.fill();
 
         if(isOuter)
-            this.drawHexagon({centerX, centerY}, size-10, false);
+            this.drawHexagon({centerX, centerY}, {sizeX: sizeX*0.9, sizeY: sizeY*0.9}, false);
         else
             ctx.globalCompositeOperation = "source-over";
 
@@ -36,7 +39,7 @@ export default class HexagonBtn extends React.Component{
 
     render(){
         return (
-            <div>
+            <div className={this.props.hexNum} style={this.props.style}>
                 <canvas ref="hexagon" />
             </div>
         );

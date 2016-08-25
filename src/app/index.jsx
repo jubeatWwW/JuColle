@@ -1,13 +1,13 @@
 import React from 'react';
 import {render} from 'react-dom';
 
-import HexagonBtn from './HexagonBtn';
+import MainMenuHex from './MainMenuHex';
 import '../css/index.scss';
 
 class App extends React.Component {
 
     render() {
-        return <HexagonBtn /> ;
+        return <MainMenuHex /> ;
     }
 };
 

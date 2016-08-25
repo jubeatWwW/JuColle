@@ -1,3 +1,32 @@
-canvas {
-    width: 20vw;
+@import './Math.scss';
+
+.hex-btn{
+    width: 12vw;
+    height: 12vw;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    right: hexSin(30);
+    
+    @for $i from 1 through 6{
+        $angle: 60* $i - 30;
+        $x : 100% * hexCos($angle) - 50%;
+        $y : 100% * hexSin($angle) - 50%;
+        &.hex-#{$i} {
+            transform: translate($x, $y)
+        }
+    }
+    
+    canvas {
+        width: 100%;
+        height: 100%;
+    }
+
+    
+
+    &.hex-center{
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
 }
