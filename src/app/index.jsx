@@ -1,13 +1,17 @@
 import React from 'react';
 import {render} from 'react-dom';
 
-import MainMenuHex from './MainMenuHex';
+import {HexagonBtns} from './HexagonBtns';
+import {PageTest} from './FullPage';
 import '../css/index.scss';
 
 class App extends React.Component {
 
     render() {
-        return <MainMenuHex /> ;
+        return (<div>
+                <PageTest />
+            </div>
+                );
     }
 };
 
