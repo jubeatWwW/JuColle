@@ -1,8 +1,31 @@
 @import './Math.scss';
+@import './mediaQueries.scss';
+
+section {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
 
 .hex-btn{
-    width: 12vw;
-    height: 12vw;
+
+    @include response-to-menu(widesc){
+        width: 12vw;
+        height: 12vw;
+    }
+    @include response-to-menu(midtopsc) {
+        width: 17vw;
+        height: 17vw;
+    }
+    @include response-to-menu(medsc){
+        width: 22vw;
+        height: 22vw;
+    }
+    @include response-to-menu(handsc){
+        width: 12vw;
+        height: 12vw;
+    }
+
     position: absolute;
     left: 50%;
     top: 50%;
@@ -11,7 +34,7 @@
     @for $i from 1 through 6{
         $angle: 60* $i - 30;
         $x : 100% * hexCos($angle) - 50%;
-        $y : 100% * hexSin($angle) - 50%;
+        $y : 100% * hexSin($angle) - 25%;
         &.hex-#{$i} {
             transform: translate($x, $y)
         }
@@ -22,11 +45,9 @@
         height: 100%;
     }
 
-    
-
     &.hex-center{
         left: 50%;
         top: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -25%);
     }
 }

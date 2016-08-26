@@ -57,10 +57,6 @@ class HexagonBtns extends React.Component {
             this.state.surroundedHex.push({id: id, style:{}});
         }
     }
-
-    componentDidMount(){
-
-    }
     
     render(){
         return(
