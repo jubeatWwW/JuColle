@@ -13,6 +13,7 @@ class Pages extends React.Component {
             isScrolling: false,
             currentPage: 0,
             pageCnt: 2,
+            scrollCounter: 0,
             firstLoad: true
         }
 
@@ -88,36 +89,44 @@ class Pages extends React.Component {
             } else{
                 this.setState({isScrolling: false});
                 
-                if(direction == 1)
+                if(direction == 1 && this.state.currentPage != this.state.pagesInfo.length - 1)
                     this.setState({currentPage: this.state.currentPage + 1});
-                else
+                else if(direction == -1 && this.state.currentPage != 0)
                     this.setState({currentPage: this.state.currentPage - 1});
             }
         })
     }
 
-    pageScrollVarSpeedMotion(scrollY, start, dist, direction, speed, accel){
+    pageScrollVarSpeedMotion(lastScrollY, start, dist, direction, speed, accel){
         this.setState({isScrolling: true});
         return this._scrolling().then(()=>{
-            if(speed < 0){
-                this.setState({isScrolling: false});
-                if(direction == 1)
-                    this.setState({currentPage: this.state.currentPage + 1});
-                else
-                    this.setState({currentPage: this.state.currentPage - 1});
+            if(window.scrollY == lastScrollY){
+                this.setState({scrollCounter: this.state.scrollCounter+1});
+            } else {
+                this.setState({scrollCounter: 0});
+            }
+            if(speed < 0 || this.state.scrollCounter > 100){
+
+                this.setState({isScrolling: false, scrollCounter: 0});
+                let nextPage = this.state.currentPage + direction;
+                if(nextPage < this.state.pagesInfo.length || nextPage >= 0 )    
+                   this.setState({currentPage: nextPage});
                 return;
             }
             
+            lastScrollY = window.scrollY;
+
             if(direction == 1 && scrollY < dist){
+
                 if(scrollY + speed >= dist)
                     window.scrollTo(0, dist);
                 else
                     window.scrollTo(0, window.scrollY + speed);
-
+                
                 if(scrollY + speed <= (start + dist - speed) / 2 )
-                    this.pageScrollVarSpeedMotion(window.scrollY, start, dist, direction, speed + accel, Math.abs(accel));
+                    this.pageScrollVarSpeedMotion(lastScrollY, start, dist, direction, speed + accel, Math.abs(accel));
                 else
-                    this.pageScrollVarSpeedMotion(window.scrollY, start, dist, direction, speed + accel, (-1) * Math.abs(accel));
+                    this.pageScrollVarSpeedMotion(lastScrollY, start, dist, direction, speed + accel, (-1) * Math.abs(accel));
             
             } else if(direction == -1 && scrollY > dist){
                 if(scrollY - speed <= dist)
@@ -126,16 +135,15 @@ class Pages extends React.Component {
                     window.scrollTo(0, window.scrollY - speed);
                 
                 if(scrollY + speed >= (start + dist - speed) / 2 )
-                    this.pageScrollVarSpeedMotion(window.scrollY, start, dist, direction, speed + accel, Math.abs(accel));
+                    this.pageScrollVarSpeedMotion(lastScrollY, start, dist, direction, speed + accel, Math.abs(accel));
                 else
-                    this.pageScrollVarSpeedMotion(window.scrollY, start, dist, direction, speed + accel, (-1) * Math.abs(accel));
+                    this.pageScrollVarSpeedMotion(lastScrollY, start, dist, direction, speed + accel, (-1) * Math.abs(accel));
             
             } else {
                 this.setState({isScrolling: false});
-                if(direction == 1)
-                    this.setState({currentPage: this.state.currentPage + 1});
-                else
-                    this.setState({currentPage: this.state.currentPage - 1});
+                let nextPage = this.state.currentPage + direction;
+                if(nextPage < this.state.pagesInfo.length || nextPage >= 0 )    
+                   this.setState({currentPage: nextPage});
             }
         })
     }
