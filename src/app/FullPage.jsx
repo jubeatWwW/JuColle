@@ -23,7 +23,7 @@ class Pages extends React.Component {
         window.scrollTo(0, 0);
     }
     
-    addPage(num, obj){
+    addPage(obj, num = 0){
         let newInfo = this.state.pagesInfo;
         const INFO_LENGTH = newInfo.length;
         
@@ -70,23 +70,72 @@ class Pages extends React.Component {
         });
     }
 
-    pageScroll(scrollY, dist, direction, speed){
+    pageScrollUniformMotion(scrollY, dist, direction, speed){
         this.setState({isScrolling: true});
         return this._scrolling().then(()=>{
-            if(direction==1 && scrollY < dist){
+            if(direction == 1 && scrollY < dist){
                 if(scrollY + speed >= dist)
                     window.scrollTo(0, dist);
                 else
                     window.scrollTo(0, window.scrollY + speed);
-                this.pageScroll(window.scrollY, dist, direction, speed);
+                this.pageScrollUniformMotion(window.scrollY, dist, direction, speed);
             } else if(direction == -1 && scrollY > dist){
-                if(scrollY - 5 <= dist)
+                if(scrollY - speed <= dist)
                     window.scrollTo(0, dist);
                 else    
                     window.scrollTo(0, window.scrollY - speed);
-                this.pageScroll(window.scrollY, dist, direction, speed);
+                this.pageScrollUniformMotion(window.scrollY, dist, direction, speed);
             } else{
                 this.setState({isScrolling: false});
+                
+                if(direction == 1)
+                    this.setState({currentPage: this.state.currentPage + 1});
+                else
+                    this.setState({currentPage: this.state.currentPage - 1});
+            }
+        })
+    }
+
+    pageScrollVarSpeedMotion(scrollY, start, dist, direction, speed, accel){
+        this.setState({isScrolling: true});
+        return this._scrolling().then(()=>{
+            if(speed < 0){
+                this.setState({isScrolling: false});
+                if(direction == 1)
+                    this.setState({currentPage: this.state.currentPage + 1});
+                else
+                    this.setState({currentPage: this.state.currentPage - 1});
+                return;
+            }
+            
+            if(direction == 1 && scrollY < dist){
+                if(scrollY + speed >= dist)
+                    window.scrollTo(0, dist);
+                else
+                    window.scrollTo(0, window.scrollY + speed);
+
+                if(scrollY + speed <= (start + dist - speed) / 2 )
+                    this.pageScrollVarSpeedMotion(window.scrollY, start, dist, direction, speed + accel, Math.abs(accel));
+                else
+                    this.pageScrollVarSpeedMotion(window.scrollY, start, dist, direction, speed + accel, (-1) * Math.abs(accel));
+            
+            } else if(direction == -1 && scrollY > dist){
+                if(scrollY - speed <= dist)
+                    window.scrollTo(0, dist);
+                else    
+                    window.scrollTo(0, window.scrollY - speed);
+                
+                if(scrollY + speed >= (start + dist - speed) / 2 )
+                    this.pageScrollVarSpeedMotion(window.scrollY, start, dist, direction, speed + accel, Math.abs(accel));
+                else
+                    this.pageScrollVarSpeedMotion(window.scrollY, start, dist, direction, speed + accel, (-1) * Math.abs(accel));
+            
+            } else {
+                this.setState({isScrolling: false});
+                if(direction == 1)
+                    this.setState({currentPage: this.state.currentPage + 1});
+                else
+                    this.setState({currentPage: this.state.currentPage - 1});
             }
         })
     }
@@ -108,8 +157,9 @@ class Pages extends React.Component {
                     return; 
                 } 
                 
-                this.pageScroll(window.scrollY, this.refs[`page${currentPage+1}`].offsetTop - 8, 1, 7);
-                this.setState({currentPage: currentPage + 1});
+                //this.pageScrollUniformMotion(window.scrollY, this.refs[`page${currentPage+1}`].offsetTop - 8, 1, 7);
+                this.pageScrollVarSpeedMotion(window.scrollY, window.scrollY, 
+                        this.refs[`page${currentPage + 1}`].offsetTop, 1, 0, 0.1);
 
             } else{
                 if(currentPage == 0) {
@@ -117,8 +167,9 @@ class Pages extends React.Component {
                     return; 
                 } 
 
-                this.pageScroll(window.scrollY, this.refs[`page${currentPage-1}`].offsetTop - 8, -1, 7);
-                this.setState({currentPage: currentPage - 1});
+                //this.pageScrollUniformMotion(window.scrollY, this.refs[`page${currentPage-1}`].offsetTop - 8, -1, 7);
+                this.pageScrollVarSpeedMotion(window.scrollY, window.scrollY, 
+                        this.refs[`page${currentPage - 1}`].offsetTop, -1, 0, 0.1);
                 
             }
         }
@@ -152,9 +203,9 @@ class PageTest extends React.Component {
     }
 
     componentDidMount(){
-        this.refs[this.refVar].addPage(0, <div></div>);
-        this.refs[this.refVar].addPage(1, <textarea />);
-        this.refs[this.refVar].deletePage(1);
+        this.refs[this.refVar].addPage(<textarea />, 0);
+        this.refs[this.refVar].addPage(<textarea />);
+        this.refs[this.refVar].addPage(<HexagonBtns />);
         
     }
 }
