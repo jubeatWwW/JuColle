@@ -1,0 +1,20 @@
+@mixin response-to-menu($media){
+    @if $media == widesc {
+        @media only screen and (min-width: 1440px) { @content; }
+    }
+    @else if $media == midtopsc {
+        @media only screen and (min-width: 1024px - 1 ) and ( max-width: 1440px + 1 ){ @content; }
+    } 
+    @else if $media ==  medsc {
+        @media only screen and (min-width: 768px + 1 ) and (max-width: 1024px - 1) {@content; }
+    }
+    @else if $media == handcs {
+        @media only screen and (max-width: 768px) { @content; }
+    }
+}
+
+@mixin boxsizing() {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}

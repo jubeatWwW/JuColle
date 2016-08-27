@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-export default class HexagonBtn extends React.Component{
+class HexagonBtn extends React.Component{
     componentDidMount(){
         const canvas = this.refs.hexagon;
         let sizeX = canvas.width/2,
@@ -45,3 +45,34 @@ export default class HexagonBtn extends React.Component{
         );
     }
 }
+
+class HexagonBtns extends React.Component {
+ 
+    constructor(){
+        super();
+        this.state = {
+            surroundedHex: []
+        }
+        for(let id=1; id<=6; id++ ){
+            this.state.surroundedHex.push({id: id, style:{}});
+        }
+    }
+    
+    render(){
+        return(
+            <div>
+                <div ref="centerHex" className="hex-center hex-btn"><HexagonBtn/></div>
+                <div>
+                {
+                    this.state.surroundedHex.map((hex) =>{
+                        return <HexagonBtn hexNum={`hex-${hex.id} hex-btn`} style={hex.style} key={hex.id}/>
+                    })
+                }
+                </div>
+            </div>
+            )
+    };
+
+}
+
+export { HexagonBtns, HexagonBtn };
