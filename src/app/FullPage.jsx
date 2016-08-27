@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {HexagonBtns} from './HexagonBtns';
+import {HexagonHollowBtns, HexagonHollowBtn, HexagonSolidBtn, HexagonTransformBtn} from './HexagonBtns';
 
 class Pages extends React.Component {
     
     constructor(){
         super();
 
-        let InputType  = [{id: 1,obj: <HexagonBtns />},{id: 2,obj: <HexagonBtns />}];
+        let InputType  = [{id: 1,obj: <HexagonHollowBtns />},{id: 2,obj: <HexagonHollowBtns />}];
         this.state = {
             pagesInfo: [],
             isScrolling: false,
@@ -100,13 +100,14 @@ class Pages extends React.Component {
     pageScrollVarSpeedMotion(lastScrollY, start, dist, direction, speed, accel){
         this.setState({isScrolling: true});
         return this._scrolling().then(()=>{
-            if(window.scrollY == lastScrollY){
+            /*if(window.scrollY == lastScrollY){
                 this.setState({scrollCounter: this.state.scrollCounter+1});
             } else {
                 this.setState({scrollCounter: 0});
-            }
-            if(speed < 0 || this.state.scrollCounter > 100){
+            }*/
+            if(speed < 0){
 
+                window.scrollTo(0, dist);
                 this.setState({isScrolling: false, scrollCounter: 0});
                 let nextPage = this.state.currentPage + direction;
                 if(nextPage < this.state.pagesInfo.length || nextPage >= 0 )    
@@ -140,6 +141,7 @@ class Pages extends React.Component {
                     this.pageScrollVarSpeedMotion(lastScrollY, start, dist, direction, speed + accel, (-1) * Math.abs(accel));
             
             } else {
+                window.scrollTo(0, dist);
                 this.setState({isScrolling: false});
                 let nextPage = this.state.currentPage + direction;
                 if(nextPage < this.state.pagesInfo.length || nextPage >= 0 )    
@@ -212,8 +214,9 @@ class PageTest extends React.Component {
 
     componentDidMount(){
         this.refs[this.refVar].addPage(<textarea />, 0);
-        this.refs[this.refVar].addPage(<textarea />);
-        this.refs[this.refVar].addPage(<HexagonBtns />);
+        this.refs[this.refVar].addPage(<HexagonHollowBtns />);
+        this.refs[this.refVar].addPage(<HexagonSolidBtn />);
+        this.refs[this.refVar].addPage(<HexagonTransformBtn />);
         
     }
 }

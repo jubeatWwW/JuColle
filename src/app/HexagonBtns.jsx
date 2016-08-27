@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-class HexagonBtn extends React.Component{
+class HexagonHollowBtn extends React.Component{
     componentDidMount(){
         const canvas = this.refs.hexagon;
         let sizeX = canvas.width/2,
@@ -46,7 +46,7 @@ class HexagonBtn extends React.Component{
     }
 }
 
-class HexagonBtns extends React.Component {
+class HexagonHollowBtns extends React.Component {
  
     constructor(){
         super();
@@ -61,11 +61,11 @@ class HexagonBtns extends React.Component {
     render(){
         return(
             <div>
-                <div ref="centerHex" className="hex-center hex-btn"><HexagonBtn/></div>
+                <div ref="centerHex" className="hex-center hex-btn"><HexagonHollowBtn /></div>
                 <div>
                 {
                     this.state.surroundedHex.map((hex) =>{
-                        return <HexagonBtn hexNum={`hex-${hex.id} hex-btn`} style={hex.style} key={hex.id}/>
+                        return <HexagonHollowBtn hexNum={`hex-${hex.id} hex-btn`} style={hex.style} key={hex.id}/>
                     })
                 }
                 </div>
@@ -75,4 +75,23 @@ class HexagonBtns extends React.Component {
 
 }
 
-export { HexagonBtns, HexagonBtn };
+class HexagonSolidBtn extends React.Component {
+    render(){
+        return <div className="pure-hex"></div>
+    }
+}
+
+class HexagonTransformBtn extends React.Component {
+    render(){
+        return (
+            <div className="transform-hex">
+                <div className="transform-hex-inner">
+                    <div className="transform-hex-content"></div>
+                </div>
+            </div>
+        );
+    }
+}
+
+
+export { HexagonHollowBtn, HexagonHollowBtns, HexagonSolidBtn, HexagonTransformBtn };

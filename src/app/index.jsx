@@ -1,7 +1,6 @@
 import React from 'react';
 import {render} from 'react-dom';
 
-import {HexagonBtns} from './HexagonBtns';
 import {PageTest} from './FullPage';
 import '../css/index.scss';
 

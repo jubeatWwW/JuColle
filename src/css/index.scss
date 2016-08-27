@@ -1,13 +1,22 @@
 @import './Math.scss';
 @import './mediaQueries.scss';
+@import './hexagon/pureHex.scss';
+@import './hexagon/transformHex.scss';
 
+$hex-size: 12vw;
 *, *:before, *:after {
     @include boxsizing(); 
 }
 
+
 body {
     margin: 0;
     overflow: hidden;
+
+
+    .header{
+        height: 300px;
+    }
 
     section {
         position: relative;
@@ -15,6 +24,8 @@ body {
         height: 100%;
         margin: 0;
 
+        @include pureHex($hex-size);
+        @include transformHex(300px);
         .hex-btn{
 
             @include response-to-menu(widesc){

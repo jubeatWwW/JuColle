@@ -1,0 +1,31 @@
+@mixin hex($size){
+    content: "";
+    position: absolute;
+    width: 0;
+    border-left: $size/2 solid transparent;
+    border-right: $size/2 solid transparent;
+}
+
+@mixin pureHex($size){
+    .pure-hex{
+
+        position: relative;
+        
+        width: $size;
+        height: $size/1.7320508 ;
+        background-color: rgba(100, 199, 204, 0.5);
+        margin: $size/1.7320508/2 0;
+
+        &:after{
+            @include hex($size);
+            top: 100%;
+            border-top: $size/1.7320508/2 solid rgba(100, 199, 204, 0.5);
+        }
+        &:before{
+            @include hex($size);
+            bottom: 100%;
+            border-bottom: $size/1.7320508/2 solid rgba(100, 199, 204, 0.5);
+
+        }
+    }
+}
