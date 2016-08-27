@@ -14,6 +14,8 @@ class Pages extends React.Component {
             currentPage: 0,
             pageCnt: 2,
             scrollCounter: 0,
+            touchPosY: 0,
+            touchStart: false,
             firstLoad: true
         }
 
@@ -89,10 +91,10 @@ class Pages extends React.Component {
             } else{
                 this.setState({isScrolling: false});
                 
-                if(direction == 1 && this.state.currentPage != this.state.pagesInfo.length - 1)
-                    this.setState({currentPage: this.state.currentPage + 1});
-                else if(direction == -1 && this.state.currentPage != 0)
-                    this.setState({currentPage: this.state.currentPage - 1});
+                window.scrollTo(0, dist);
+                let nextPage = this.state.currentPage + direction;
+                if(nextPage < this.state.pagesInfo.length || nextPage >= 0 )    
+                   this.setState({currentPage: nextPage});
             }
         })
     }
@@ -100,15 +102,11 @@ class Pages extends React.Component {
     pageScrollVarSpeedMotion(lastScrollY, start, dist, direction, speed, accel){
         this.setState({isScrolling: true});
         return this._scrolling().then(()=>{
-            /*if(window.scrollY == lastScrollY){
-                this.setState({scrollCounter: this.state.scrollCounter+1});
-            } else {
-                this.setState({scrollCounter: 0});
-            }*/
+            
             if(speed < 0){
 
                 window.scrollTo(0, dist);
-                this.setState({isScrolling: false, scrollCounter: 0});
+                this.setState({isScrolling: false, touchStart: false, scrollCounter: 0});
                 let nextPage = this.state.currentPage + direction;
                 if(nextPage < this.state.pagesInfo.length || nextPage >= 0 )    
                    this.setState({currentPage: nextPage});
@@ -143,6 +141,7 @@ class Pages extends React.Component {
             } else {
                 window.scrollTo(0, dist);
                 this.setState({isScrolling: false});
+                this.setState({touchStart: false});
                 let nextPage = this.state.currentPage + direction;
                 if(nextPage < this.state.pagesInfo.length || nextPage >= 0 )    
                    this.setState({currentPage: nextPage});
@@ -154,7 +153,7 @@ class Pages extends React.Component {
         event.preventDefault();
         if(this.state.firstLoad){
             let currentPage = Math.floor((scrollY + 8) / this.refs.page0.clientHeight);
-            this.setState({firstLoad: false});
+            this.setState({firstLoad: false, currentPage});
         }
         if(!this.state.isScrolling){
             this.setState({isScrolling: true});
@@ -185,9 +184,49 @@ class Pages extends React.Component {
         }
     }
 
+    onTouchMove(event){
+        event.preventDefault();
+        if(this.state.firstLoad){
+            let currentPage = Math.floor((scrollY + 8) / this.refs.page0.clientHeight);
+            this.setState({firstLoad: false, currentPage});
+        }
+        
+        let pageY = event.touches[0].pageY;
+
+        if(!this.state.touchStart){
+            this.setState({touchPosY: pageY, touchStart: true});
+            console.log("start", pageY);
+        } else{
+            if(!this.state.isScrolling){
+                this.setState({isScrolling: true});
+                
+                let currentPage = this.state.currentPage;
+                console.log(this.state.touchPosY, pageY);
+                if(this.state.touchPosY > pageY){
+                    if(currentPage == this.state.pageCnt-1) {
+                        this.setState({isScrolling: false, touchStart: false});
+                        return; 
+                    } 
+                    this.pageScrollVarSpeedMotion(window.scrollY, window.scrollY, 
+                            this.refs[`page${currentPage + 1}`].offsetTop, 1, 0, 0.1);
+
+                } else if(this.state.touchPosY < pageY){
+                    if(currentPage == 0) {
+                        this.setState({isScrolling: false, touchStart: false});
+                        return; 
+                    } 
+                    this.pageScrollVarSpeedMotion(window.scrollY, window.scrollY, 
+                            this.refs[`page${currentPage - 1}`].offsetTop, -1, 0, 0.1);
+                } else{
+                    this.setState({isScrolling: false, touchStart: false});
+                }
+            }
+        }
+    }
+
     render(){
         return (
-            <div onWheel={this.onWheel.bind(this)}>
+            <div onWheel={this.onWheel.bind(this)} onTouchMove={this.onTouchMove.bind(this)}>
                 {
                     this.state.pagesInfo.map((item) => {
                         return <section ref={`page${item.id}`} className={`page-${item.id}`} key={item.id}>{item.obj}</section>;

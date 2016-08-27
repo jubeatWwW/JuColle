@@ -13,7 +13,6 @@ body {
     margin: 0;
     overflow: hidden;
 
-
     .header{
         height: 300px;
     }
@@ -25,7 +24,7 @@ body {
         margin: 0;
 
         @include pureHex($hex-size);
-        @include transformHex(300px);
+        @include transformHex($hex-size);
         .hex-btn{
 
             @include response-to-menu(widesc){
