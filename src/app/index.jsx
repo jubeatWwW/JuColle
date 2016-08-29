@@ -1,7 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 
-import {PageTest} from './FullPage';
+import {PageTest} from './One-Page-Scroll';
 import '../css/index.scss';
 
 class App extends React.Component {

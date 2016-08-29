@@ -16,9 +16,9 @@ class HexagonHollowBtn extends React.Component{
 
         if(!isOuter){
             ctx.globalCompositeOperation = "destination-out";
-            ctx.fillStyle = "rgba(0, 0, 0, 1)";
+            ctx.fillStyle = "rgba(255, 255, 255, 1)";
         }else{
-            ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+            ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
         }
         
         ctx.beginPath();
@@ -84,14 +84,29 @@ class HexagonSolidBtn extends React.Component {
 class HexagonTransformBtn extends React.Component {
     render(){
         return (
-            <div className="transform-hex">
+            <li className="transform-hex">
                 <div className="transform-hex-inner">
                     <div className="transform-hex-content"></div>
                 </div>
-            </div>
+            </li>
+        );
+    }
+}
+
+class HexagonTransformBtns extends React.Component {
+    render(){
+        let hexList = this.props.hexList;
+        return (
+            <ui className="hex-grid">
+                {
+                    hexList.map( (hex) => {
+                        return hex==0 ? <li className="hole transform-hex"></li> : <HexagonTransformBtn  />;
+                    })
+                }    
+            </ui>
         );
     }
 }
 
 
-export { HexagonHollowBtn, HexagonHollowBtns, HexagonSolidBtn, HexagonTransformBtn };
+export { HexagonHollowBtn, HexagonHollowBtns, HexagonSolidBtn, HexagonTransformBtn, HexagonTransformBtns };
