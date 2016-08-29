@@ -96,11 +96,12 @@ class HexagonTransformBtn extends React.Component {
 class HexagonTransformBtns extends React.Component {
     render(){
         let hexList = this.props.hexList;
+        let id = 0;
         return (
             <ui className="hex-grid">
                 {
                     hexList.map( (hex) => {
-                        return hex==0 ? <li className="hole transform-hex"></li> : <HexagonTransformBtn  />;
+                        return hex==0 ? <li className="hole transform-hex" key={id++}></li> : <HexagonTransformBtn key={id++} />;
                     })
                 }    
             </ui>

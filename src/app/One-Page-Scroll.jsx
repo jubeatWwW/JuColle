@@ -1,14 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {HexagonHollowBtns, HexagonHollowBtn, HexagonSolidBtn, HexagonTransformBtn, HexagonTransformBtns} from './HexagonBtns';
 
-class OnePageScroll extends React.Component {
+export default class OnePageScroll extends React.Component {
     
     constructor(props){
         super(props);
 
         this.state = {
-            pagesInfo: [],
+            pagesInfo: this.props.initialPages,
             currentPage: 0,
             style: {},
             touchStart: false,
@@ -160,6 +159,7 @@ OnePageScroll.propTypes = {
 OnePageScroll.defaultProps = {
     timing_func: 'ease-in-out',
     duration_time: 1,
+    initialPages: [{id: 0, obj: <h1>Page1</h1>}, {id: 1, obj: <h1>Page2</h1>}]
 }
 
 class PageTest extends React.Component {
@@ -170,16 +170,15 @@ class PageTest extends React.Component {
     }
 
     render(){
-        return <OnePageScroll ref={this.refVar} />;
+        let page = [{id: 0, obj: <HexagonHollowBtns />}]
+        return <OnePageScroll ref={this.refVar} initialPages={page} />;
     }
 
     componentDidMount(){
-        let hexArr = [1,1,1,1,1,1,1];
+        let hexArr = [1,1,1,0,1,1,1];
         this.refs[this.refVar].addPage(<textarea />, 0);
         this.refs[this.refVar].addPage(<HexagonHollowBtns />);
         this.refs[this.refVar].addPage(<HexagonTransformBtns hexList={hexArr} />);
         
     }
 }
-
-export {PageTest, OnePageScroll};
