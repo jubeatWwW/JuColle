@@ -3,6 +3,10 @@ import ShortId from 'shortid';
 
 
 export default class SideBar extends React.Component{
+    handleClick(index){
+        this.props.onClick(index);
+    }
+
     render(){
         let bigDotAngle = [-60, 0, 60],
            medDotAngle = [-40, -20, 20, 40],
@@ -18,9 +22,9 @@ export default class SideBar extends React.Component{
                     <path d="M10 250 A 1 1 0 0 1 490 250 A 1 1 0 0 1 10 250" 
                             stroke="white" fill="transparent" strokeWidth="1.5" className="sidebar-circle" />
                     {
-                        barAngle.map((angle) => {
+                        barAngle.map((angle, i) => {
                             return(
-                                <g id="short-bar" className="short-bar" transform={`rotate(${angle}, 250, 250)`} key={ShortId.generate()}>
+                                <g id="short-bar" onClick={this.handleClick.bind(this, i)} className="short-bar" transform={`rotate(${angle}, 250, 250)`} key={ShortId.generate()}>
                                     <text x="500" y="250" fill="white">01</text>
                                     <path d="M490 250 A 240 240 0 0 1 486.3538607 291.6755626" 
                                             stroke="yellow" fill="transparent" strokeWidth="3" strokeLinecap="round" className="bar" />
