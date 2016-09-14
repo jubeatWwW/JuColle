@@ -6,7 +6,9 @@ var APP_DIR = path.resolve(__dirname, 'src/app');
 var CSS_DIR = path.resolve(__dirname, 'src/css');
 
 var config = {
-    entry: APP_DIR+'/index.jsx',
+    entry: [
+        APP_DIR+'/index.jsx',
+    ],
     output: {
         path: BUILD_DIR,
         filename: '/bundle.js'
@@ -29,7 +31,15 @@ var config = {
     },
     resolve: {
         extensions: ['', '.js', '.jsx']
-    }
+    },
+    devtool: "cheap-module-eval-source-map",
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
+    ]
 };
 
 module.exports = config;
