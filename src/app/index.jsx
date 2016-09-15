@@ -14,15 +14,18 @@ class App extends React.Component {
 
     handleClick(index){
         this.setState({currentPage: index});
+        this.refs.mainPage.pageScrollTo(index);
     }
 
     render() {
-        console.log(`${this.state.currentPage} state~~~`);
         let hexArr = [1,1,1,0,1,1,1];
         let initialPages = [
             {id: 1, obj: <HexagonTransformBtns hexList={hexArr} /> },
             {id: 2, obj: <HexagonHollowBtns />},
             {id: 3, obj: <textarea />},
+            {id: 4, obj: <button />},
+            {id: 5, obj: <textarea />},
+            {id: 6, obj: <input />}
         ];
         return (
             <div>

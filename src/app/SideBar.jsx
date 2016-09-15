@@ -11,8 +11,8 @@ export default class SideBar extends React.Component{
         let bigDotAngle = [-60, 0, 60],
            medDotAngle = [-40, -20, 20, 40],
            smallDotAngle = [-50, -30, -10, 10, 30, 50],
-           barAngle = [-50, -30, -10, 10, 30, 50];
-
+           barAngle = [-50, -30, -10, 10, 30, 50],
+           barItem = ['Me', 'Technique', 'Gallery', 'test', 'test', 'test'];
         return (
             <aside>
                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +25,7 @@ export default class SideBar extends React.Component{
                         barAngle.map((angle, i) => {
                             return(
                                 <g id="short-bar" onClick={this.handleClick.bind(this, i)} className="short-bar" transform={`rotate(${angle}, 250, 250)`} key={ShortId.generate()}>
-                                    <text x="500" y="250" fill="white">01</text>
+                                    <text x="500" y="250" fill="white">{barItem[i]}</text>
                                     <path d="M490 250 A 240 240 0 0 1 486.3538607 291.6755626" 
                                             stroke="yellow" fill="transparent" strokeWidth="3" strokeLinecap="round" className="bar" />
                                     <path d="M490 250 A 240 240 0 0 0 486.3538607 208.3244373" 
