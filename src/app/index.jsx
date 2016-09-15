@@ -7,6 +7,15 @@ import SideBar from './SideBar';
 import '../css/index.scss';
 
 class App extends React.Component {
+    constructor(){
+        super();
+        this.state = {currentPage: 0};
+    }
+
+    handleClick(index){
+        this.setState({currentPage: index});
+        this.refs.mainPage.pageScrollTo(index);
+    }
 
     render() {
         let hexArr = [1,1,1,0,1,1,1];
@@ -14,11 +23,14 @@ class App extends React.Component {
             {id: 1, obj: <HexagonTransformBtns hexList={hexArr} /> },
             {id: 2, obj: <HexagonHollowBtns />},
             {id: 3, obj: <textarea />},
+            {id: 4, obj: <button />},
+            {id: 5, obj: <textarea />},
+            {id: 6, obj: <input />}
         ];
         return (
             <div>
-                <SideBar />
-                <OnePageScroll initialPages={initialPages} />
+                <SideBar onClick={this.handleClick.bind(this)} />
+                <OnePageScroll initialPages={initialPages} ref="mainPage"/>
             </div>
                 );
     }

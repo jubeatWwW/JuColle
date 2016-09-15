@@ -67,6 +67,29 @@ export default class OnePageScroll extends React.Component {
         });
     }
 
+    pageScrollTo(pageNum){
+        if(!this.state.isScrolling){
+            this.setState({isScrolling: true});
+            let currentPage = this.state.currentPage;
+            const PAGE_NUM = this.state.pagesInfo.length;
+            
+            pageNum = pageNum > PAGE_NUM - 1 ? PAGE_NUM - 1 : pageNum;
+            let newStyle = {
+                transition: `all ${this.props.duration_time}s ${this.props.timing_func}`,
+                transform: `translate(0, -${pageNum * 100}%)`
+            }
+
+            this.setState({
+                style: newStyle,
+                currentPage: pageNum});
+
+            this._scrollingDelay(this.props.duration_time).then(()=>{
+               this.setState({isScrolling: false});
+            });
+               
+        }
+    }
+
     onWheel(event){
         event.preventDefault();
         if(!this.state.isScrolling){
