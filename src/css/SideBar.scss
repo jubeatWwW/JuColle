@@ -39,12 +39,11 @@
 
     & > svg .short-bar text{
         transition: all 0.35s ease-in-out;
-        transform: translate(300px) scale(0);
+        transform: translate(300px);
     }       
     
     &:hover > svg .short-bar text{
-        transition: all 0.35s ease-in-out;
-        transform: translate(0) scale(1);
+        transform: translate(0);
     }       
     
     & > svg .short-bar path{
