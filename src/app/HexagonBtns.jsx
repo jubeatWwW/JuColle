@@ -82,11 +82,14 @@ class HexagonSolidBtn extends React.Component {
 }
 
 class HexagonTransformBtn extends React.Component {
+    onClick(){
+        this.props.onClick();
+    }
     render(){
         return (
             <li className="transform-hex">
                 <div className="transform-hex-inner">
-                    <div className="transform-hex-content"></div>
+                    <div className="transform-hex-content" onClick={this.onClick.bind(this)}></div>
                 </div>
             </li>
         );
@@ -94,14 +97,22 @@ class HexagonTransformBtn extends React.Component {
 }
 
 class HexagonTransformBtns extends React.Component {
+
+    handleOnClick(index){
+        this.props.onClick(index);
+    }
+
     render(){
         let hexList = this.props.hexList;
         let id = 0;
+        let offset = 0;
         return (
             <ui className="hex-grid">
                 {
-                    hexList.map( (hex) => {
-                        return hex==0 ? <li className="hole transform-hex" key={id++}></li> : <HexagonTransformBtn key={id++} />;
+                    hexList.map( (hex, i) => {
+                        if(hex == 0)
+                            offset++;
+                        return hex==0 ? <li className="hole transform-hex" key={id++}></li> : <HexagonTransformBtn key={id++} onClick={this.handleOnClick.bind(this, i-offset)}/>;
                     })
                 }    
             </ui>
