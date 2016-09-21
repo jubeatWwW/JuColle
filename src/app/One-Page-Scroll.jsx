@@ -67,13 +67,13 @@ export default class OnePageScroll extends React.Component {
         });
     }
 
-    pageScrollTo(pageNum){
+    _pageScroll(pageNum){
         if(!this.state.isScrolling){
             this.setState({isScrolling: true});
             let currentPage = this.state.currentPage;
             const PAGE_NUM = this.state.pagesInfo.length;
-            
             pageNum = pageNum > PAGE_NUM - 1 ? PAGE_NUM - 1 : pageNum;
+            
             let newStyle = {
                 transition: `all ${this.props.duration_time}s ${this.props.timing_func}`,
                 transform: `translate(0, -${pageNum * 100}%)`
@@ -84,40 +84,25 @@ export default class OnePageScroll extends React.Component {
                 currentPage: pageNum});
 
             this._scrollingDelay(this.props.duration_time).then(()=>{
-               this.setState({isScrolling: false});
+                this.setState({isScrolling: false, touchStart: false});
             });
-               
         }
+    }
+
+    pageScrollTo(pageNum){
+        this._pageScroll(pageNum);
     }
 
     onWheel(event){
         event.preventDefault();
-        if(!this.state.isScrolling){
-            this.setState({isScrolling: true});
-            let currentPage = this.state.currentPage;
-            const PAGE_NUM = this.state.pagesInfo.length;
+        let currentPage = this.state.currentPage;
+        const PAGE_NUM = this.state.pagesInfo.length;
+        let nextPage = event.deltaY > 0 ? currentPage + 1: currentPage - 1;
+        let limit = event.deltaY > 0 ? PAGE_NUM - 1 : 0;
+        
+        if(currentPage == limit) return;
 
-            let nextPage = event.deltaY > 0 ? currentPage + 1: currentPage - 1;
-            let limit = event.deltaY > 0 ? PAGE_NUM - 1 : 0;
-            let newStyle = {
-                transition: `all ${this.props.duration_time}s ${this.props.timing_func}`,
-                transform: `translate(0, -${nextPage * 100}%)`
-            }
-
-            if(currentPage != limit){
-                this.setState({
-                    style: newStyle,
-                    currentPage: nextPage
-                });
-            } else{
-                this.setState({isScrolling: false});
-                return;
-            }
-
-            this._scrollingDelay(this.props.duration_time).then(()=>{
-               this.setState({isScrolling: false});
-            });
-        }
+        this._pageScroll(nextPage);
     }
 
     onTouchMove(event){
@@ -127,33 +112,15 @@ export default class OnePageScroll extends React.Component {
         if(!this.state.touchStart){
             this.setState({touchPosY: pageY, touchStart: true});
         }else {
-            if(!this.state.isScrolling){
-                this.setState({isScrolling: true});
-                let currentPage = this.state.currentPage;
-                const PAGE_NUM = this.state.pagesInfo.length;
+            let currentPage = this.state.currentPage;
+            const PAGE_NUM = this.state.pagesInfo.length;
                 
-                let nextPage = this.state.touchPosY > pageY ? currentPage + 1 : currentPage - 1;
-                let limit = this.state.touchPosY > pageY ? PAGE_NUM - 1 : 0;
-                let newStyle = {
-                    transition: `all ${this.props.duration_time}s ${this.props.timing_func}`,
-                    transform: `translate(0, -${nextPage * 100}%)`
-                }
+            let nextPage = this.state.touchPosY > pageY ? currentPage + 1 : currentPage - 1;
+            let limit = this.state.touchPosY > pageY ? PAGE_NUM - 1 : 0;
 
-                if(currentPage != limit){
-                    this.setState({
-                        style: newStyle,
-                        currentPage: nextPage
-                    });
-                } else{
-                    this.setState({isScrolling: false, touchStart: false});
-                    return;
-                }
+            if(currentPage == limit) return;
 
-                this._scrollingDelay(this.props.duration_time).then(()=>{
-                   this.setState({isScrolling: false, touchStart: false});
-                });
-                   
-            }
+            this._pageScroll(nextPage);
         }
     }
 
@@ -185,23 +152,3 @@ OnePageScroll.defaultProps = {
     initialPages: [{id: 0, obj: <h1>Page1</h1>}, {id: 1, obj: <h1>Page2</h1>}]
 }
 
-class PageTest extends React.Component {
-    constructor(){
-        super();
-        this.refVar = "no1";
-
-    }
-
-    render(){
-        let page = [{id: 0, obj: <HexagonHollowBtns />}]
-        return <OnePageScroll ref={this.refVar} initialPages={page} />;
-    }
-
-    componentDidMount(){
-        let hexArr = [1,1,1,0,1,1,1];
-        this.refs[this.refVar].addPage(<textarea />, 0);
-        this.refs[this.refVar].addPage(<HexagonHollowBtns />);
-        this.refs[this.refVar].addPage(<HexagonTransformBtns hexList={hexArr} />);
-        
-    }
-}

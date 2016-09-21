@@ -1,4 +1,4 @@
-@import './Math.scss';
+@import './lib/Math.scss';
 @import './mediaQueries.scss';
 @import './hexagon/canvasHex.scss';
 @import './hexagon/pureHex.scss';
@@ -15,37 +15,10 @@ $hex-size: 12vw;
 body {
     background: black;
     margin: 0;
-    //overflow: hidden;
-    
 
-    .header{
-        height: 300px;
-    }
     @include sidebar();
     @include one-page-scroll();
 
-    section {
-        position: relative;
-        margin: 0;
-
-        @include pureHex($hex-size);
-        @include transformHex($hex-size);
-        @include canvasHex();
-
-        .transform-hex{
-            transition: all 0.1s linear;
-        }
-
-        .transform-hex-content{
-            background: rgba(255, 255, 255, 0.5);
-            transition: all 0.3s linear;
-
-            &:hover{
-                background: rgba(255, 255, 255, 1);
-            }           
-        }
-
-    }
 }
 
 
