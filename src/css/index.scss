@@ -1,10 +1,10 @@
 @import './lib/Math.scss';
 @import './lib/mediaQueries.scss';
-@import './hexagon/canvasHex.scss';
-@import './hexagon/pureHex.scss';
-@import './hexagon/transformHex.scss';
-@import './one-page-scroll.scss';
-@import './SideBar.scss';
+@import './component/hexagon/canvasHex.scss';
+@import './component/hexagon/pureHex.scss';
+@import './component/hexagon/transformHex.scss';
+@import './component/one-page-scroll.scss';
+@import './component/SideBar.scss';
 
 $hex-size: 12vw;
 *, *:before, *:after {
