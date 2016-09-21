@@ -48,6 +48,9 @@
                 -ms-transform: skewY(-30deg) rotate(60deg);
                 transform: skewY(-30deg) rotate(60deg);
             }
+            .transform-hex{
+                transition: all 0.1s linear;
+            }
 
             .transform-hex-content{
                 left: -100%;
@@ -55,6 +58,13 @@
                 width: auto;
                 height: 150%;
                 margin: 0 auto;
+                
+                background: rgba(255, 255, 255, 0.5);
+                transition: all 0.3s linear;
+
+                &:hover{
+                    background: rgba(255, 255, 255, 1);
+                }           
             }
             
 

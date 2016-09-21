@@ -17,18 +17,6 @@
             @include transformHex($hex-size);
             @include canvasHex();
 
-            .transform-hex{
-                transition: all 0.1s linear;
-            }
-
-            .transform-hex-content{
-                background: rgba(255, 255, 255, 0.5);
-                transition: all 0.3s linear;
-
-                &:hover{
-                    background: rgba(255, 255, 255, 1);
-                }           
-            }
 
         }
 
