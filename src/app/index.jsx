@@ -27,9 +27,8 @@ class App extends React.Component {
     }
 
     render() {
-        let hexArr = [1,1,1,0,1,1,1];
         let initialPages = [
-            {id: 1, obj: <Main onClick={this.handleHexClick.bind(this)} hexList={hexArr} /> },
+            {id: 1, obj: <Main onClick={this.handleHexClick.bind(this)} /> },
             {id: 2, obj: <HexagonHollowBtns/>},
             {id: 3, obj: <textarea />},
             {id: 4, obj: <button />},

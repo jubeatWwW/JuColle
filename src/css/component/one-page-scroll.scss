@@ -1,3 +1,5 @@
+@import './pages/main-page.scss';
+
 @mixin one-page-scroll(){
     .one-scroll{
         width: 100%;
@@ -16,7 +18,8 @@
             @include pureHex($hex-size);
             @include transformHex($hex-size);
             @include canvasHex();
-
+            
+            @include main-page();
 
         }
 
