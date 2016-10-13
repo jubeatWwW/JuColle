@@ -1,0 +1,27 @@
+@import './pages/main-page.scss';
+
+@mixin one-page-scroll(){
+    .one-scroll{
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+        .page{
+            width: 100%;
+            height: 100%;
+        }
+
+        section {
+            position: relative;
+            margin: 0;
+
+            @include pureHex($hex-size);
+            @include transformHex($hex-size);
+            @include canvasHex();
+            
+            @include main-page();
+
+        }
+
+    }
+}

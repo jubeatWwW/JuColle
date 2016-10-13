@@ -1,0 +1,23 @@
+@import './lib/Math.scss';
+@import './lib/mediaQueries.scss';
+@import './component/hexagon/canvasHex.scss';
+@import './component/hexagon/pureHex.scss';
+@import './component/hexagon/transformHex.scss';
+@import './component/one-page-scroll.scss';
+@import './component/SideBar.scss';
+
+$hex-size: 12vw;
+*, *:before, *:after {
+    @include boxsizing(); 
+}
+
+
+body {
+    background: black;
+    margin: 0;
+
+    @include sidebar();
+    @include one-page-scroll();
+}
+
+

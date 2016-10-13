@@ -1,0 +1,165 @@
+@mixin dotsAnime(){
+    & > svg .sidebar-circle{
+        animation: dashOut 0.5s linear forwards;
+    }
+    
+    &:hover > svg .sidebar-circle{
+        animation: dashIn 0.2s linear forwards;
+    }
+    
+    & > svg .big-dots{
+        transition: all 0.2s linear;
+        transform: scale(0);
+    }       
+    
+    &:hover > svg .big-dots{
+        transition: all 0.2s linear;
+        transform: scale(1);
+    } 
+
+    & > svg .med-dots{
+        transition: all 0.25s linear;
+        transform: scale(0);
+    }       
+    
+    &:hover > svg .med-dots{
+        transition: all 0.25s linear;
+        transform: scale(1);
+    }
+
+    & > svg .small-dots{
+        transition: all 0.35s ease-out;
+        transform: scale(0) rotate(180deg);
+    }       
+    
+    &:hover > svg .small-dots{
+        transition: all 0.35s ease-out;
+        transform: scale(1) rotate(0deg);
+    }
+
+    & > svg .short-bar text{
+        transition: all 0.35s ease-in-out;
+        transform: translate(300px);
+    }       
+    
+    &:hover > svg .short-bar text{
+        transform: translate(0);
+    }       
+    
+    & > svg .short-bar path{
+        transform: translate(-9999px);
+    }
+    &:hover > svg .short-bar path{
+        transform: translate(0);
+    }
+
+    @keyframes dashIn{
+        to{
+            stroke-dashoffset: 0;
+        }
+    }
+    @keyframes dashOut{
+        from{
+            stroke-dashoffset: 0;
+        }
+        to{
+            stroke-dashoffset: 2000;
+        }
+    }
+}
+
+@mixin shortBar(){
+    
+    .short-bar{
+        stroke-dasharray: 2000;
+        stroke-dashoffset: 1970;
+        animation: hoverOut 0.3s ease-out forwards;
+        path{
+            animation: colorOut 0.3s ease-out forwards;
+            stroke: rgba(255, 255, 0, 0);
+        }
+    }
+
+    .short-bar:hover{
+        animation: hoverIn 0.3s ease-out forwards;
+        path{
+            animation: colorIn 0.3s ease-out forwards;
+            stroke: rgba(255, 255, 0, 1);
+        }
+    }
+
+    @keyframes colorIn{
+        from{
+            stroke: rgba(255, 255, 0, 0);
+        }
+        to{
+            stroke: rgba(255, 255, 0, 1);
+        }
+    }
+
+    @keyframes colorOut{
+        from{
+            stroke: rgba(255, 255, 0, 0);
+        }
+        to{
+            stroke: rgba(255, 255, 0, 1);
+        }
+    }
+
+    @keyframes hoverIn {
+        from{
+            stroke-dashoffset: 2000;
+        }
+        to{
+            stroke-dashoffset: 1970;
+        }
+    }
+
+    @keyframes hoverOut{
+        from{
+            stroke-dashoffset: 1970;
+        }
+        to{
+            stroke-dashoffset: 2000;
+        }
+    }
+    
+}
+
+@mixin sidebar(){
+    aside{
+        position: fixed;
+        z-index: 100;
+        width: 55vw;
+        height: 55vw;
+        top: 50%;
+        transform: translate(-60%, -50%);
+
+        @include dotsAnime();
+        @include shortBar();
+
+        svg{
+            width: 100%;
+            height: 100%;
+            
+            text{
+                font-size: 16px;
+            }
+
+            .sidebar-circle{
+                stroke-dasharray: 2000;
+                stroke-dashoffset: 2000;
+            }
+
+
+            .med-dots{
+                transform-origin: 50% 50%;
+            }
+
+            .small-dots{
+                transform-origin: -300%;
+            }
+
+        }
+    }
+}
